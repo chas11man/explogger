@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 FS_CHOICES = (
@@ -71,7 +72,15 @@ class Film(models.Model):
     exposure_count = models.SmallIntegerField()
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    cameras = models.ManyToManyField(Camera)
+    lenses = models.ManyToManyField(Lens)
+    films = models.ManyToManyField(Film)
+    
+
 class Exposure(models.Model):
+    user = models.ForeignKey(User, null=True)
     camera = models.ForeignKey(Camera)
     film = models.ForeignKey(Film)
     lens = models.ForeignKey(Lens)
